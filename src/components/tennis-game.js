@@ -6,7 +6,7 @@ export class TennisGame extends Component {
 
   constructor(properties) {
     super(properties);
-  
+
     this.state = {
       playerOne: 'Djokovic',
       playerTwo: 'Nadal',
@@ -18,7 +18,6 @@ export class TennisGame extends Component {
       playerTwoMatch: 0
     };
   }
-  // game functions
   playerOneScored() {
     this.setState({ playerOneGame: this.state.playerOneGame + 1 }, () => {
       if (
@@ -154,7 +153,7 @@ export class TennisGame extends Component {
     console.log(playerASet, playerBSet);
     if (playerASet === 6 && playerBSet <= 4) {
       return true;
-    } else if (playerASet === 7 && playerBSet <= 5) {
+    } else if (playerASet === 7 && playerBSet <= 6) {
       return true;
     } else {
       return false;
@@ -172,14 +171,13 @@ export class TennisGame extends Component {
   render() {
     return (
       <div className='column'>
-       
         <div className='row'>
           <span className='bold player-name'>Name</span>
           <span className='bold player-score'>Game</span>
           <span className='bold player-score'>Set</span>
           <span className='bold player-score'>Match</span>
         </div>
-     
+
         <div className='row'>
           <span className='player-name'>{this.state.playerOne}</span>
           <span className='player-score'>
@@ -188,7 +186,7 @@ export class TennisGame extends Component {
           <span className='player-score'>{[this.state.playerOneSet]}</span>
           <span className='player-score'>{[this.state.playerOneMatch]}</span>
         </div>
-        
+
         <div className='row'>
           <span className='player-name'>{this.state.playerTwo}</span>
           <span className='player-score'>
@@ -214,8 +212,7 @@ export class TennisGame extends Component {
           </p>
           <button>Reset scoreboard</button>
         </div>
-
-    </div>
+      </div>
     );
   }
 }
