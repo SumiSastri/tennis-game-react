@@ -161,12 +161,12 @@ export class TennisGame extends Component {
   }
 
   hasPlayerWonMatch(playerAMatch, playerBMatch) {
-    // console.log(playerAMatch, playerBMatch);
+    console.log(playerAMatch, playerBMatch);
     if (playerAMatch === 3 && playerBMatch) {
       return true;
     } else {
       return false;
-    }
+    } 
   }
   render() {
     return (
