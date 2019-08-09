@@ -1,7 +1,7 @@
 
 ## Tennis game kata
 
-#### Set up
+#### Set up - root files & styling
 * npm-x create-react-app tennis-game
 * cd into folder - yarn start 
 * remove react branding from css/jsx in app.js
@@ -49,11 +49,37 @@ Inspect the elements in the console to ensure the methods used displayed in the 
 
 * Basic styling using flex box to align items
 
-### Intialising the game
+#### Game logic in pseudo code (acceptance criteria) 
+ * the game has two players
+ * scores start at 0-0
+ * scores should update to 15-0 when player one scores a point
+ * and to 0-15 when player 2 wins a point
+ * a running score should be maintained based on the score sequence
+ * the score sequence is 0, 15, 30, 40,50, 60
+ * the deuce exception is when scores are 50-50
+ * scores return to 40-40 when they are 50-50
+ * a game is won when one player is at 50 or 60 and the other is two points behind 
+ * winning a game earns the player one set point
+ * 1-0 is when the first player wins a set
+ * 0-1 is when the first player wins a set
+ * when a set is won, game scores revert to 0-0
+ * players continue to win games and sets
+ * the first player to win 7 sets earns a match point
+ * player one wins a match at 1-0
+ * player two wins a match at 0-1
+ * set & game points go back to 0-0 when a match is won
+ * the first player past 3 matches wins the game
+ * the name of the winner is printed on the board
+ * the games, sets, matches reset to 0-0 respectively
 
-The class of TennisGame is initialised with the scores that the players can achieve in a game, set and match.
 
-The data is stored in arrays
+### Intializing the game
+
+The class of TennisGame is initialized with the scores that the players can achieve in a game, set and match.
+
+- the game sequence for the progression of points of a game
+- the set sequence for the progression of sets won to win a match
+- the match sequence for the number of games a player must win to win game, set and match
 
 ```
 export class TennisGame extends Component {
@@ -62,7 +88,7 @@ export class TennisGame extends Component {
   matchSequence = [0, 1, 2, 3];
 
   ```
-  The constructor properties are held in state as an object
+  The constructor properties are held in state as an object - this defines the data that changes as the game progresses
 
   ```
 constructor(properties) {
@@ -80,3 +106,77 @@ constructor(properties) {
     };
   }
 ```
+
+- the key function is to change state from 0-0 to advance points through the game
+- conditions and functions determine these state changes (changes of scores)
+-  if the player won a point?
+   
+  ```
+  playerOneScored(){}
+  playerTwoScored(){}
+
+```
+- if the player won a game?
+- if the player won a set?
+- the function is run, state is reset and then the jsx element is condtionally rendered with the new state
+     
+ ```
+ hasPlayerWonSet(playerASet, playerBSet) {
+    if (playerASet === 6 && playerBSet <= 4) {
+      return true;
+    } else if (playerASet === 7 && playerBSet <= 5) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+     if (
+        this.hasPlayerWonSet(
+          this.setSequence[this.state.playerTwoSet],
+          this.setSequence[this.state.playerOneSet]
+        )
+      ) {
+        this.setState({
+          playerOneGame: 0,
+          playerTwoGame: 0,
+          playerOneSet: 0,
+          playerTwoSet: 0,
+          playerTwoMatch: this.state.playerTwoMatch + 1
+        });
+      }
+
+```
+
+### Handling exceptions
+
+- the deuce exception breaks a pattern, therefore, a conditional code block is run to check if the players have reached the deuce exception
+
+```
+hasPlayerReachedDeuce(playerAGame, playerBGame) {
+    if (playerAGame === 50 && playerBGame === 50) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+```
+once this break of the iterative pattern is established then an action follows returning scores in state to 40-40, this is a position in the array with an index of 3 
+
+    ```
+    if (
+        this.hasPlayerReachedDeuce(
+          this.gameSequence[this.state.playerTwoGame],
+          this.gameSequence[this.state.playerOneGame]
+        )
+      ) {
+        this.setState({
+          playerOneGame: 3,
+          playerTwoGame: 3
+        });
+      }
+
+    ```
+
+    The final step is to find a winner by comparing scores and print the winner's name on the board
+
+    Once the winner has been declared, the garbage-collector has to be called and the reset game scores will clear the data that has been cached returning the game to the original state.

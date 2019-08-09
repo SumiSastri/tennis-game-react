@@ -22,7 +22,7 @@ export class TennisGame extends Component {
   playerOneScored() {
     this.setState({ playerOneGame: this.state.playerOneGame + 1 }, () => {
       if (
-        this.hasPlayerWonGameSetAndMatch(
+        this.hasPlayerWonMatch(
           this.matchSequence[this.state.playerOneMatch],
           this.matchSequence[this.state.playerTwoMatch]
         )
@@ -79,7 +79,7 @@ export class TennisGame extends Component {
   playerTwoScored() {
     this.setState({ playerTwoGame: this.state.playerTwoGame + 1 }, () => {
       if (
-        this.hasPlayerWonGameSetAndMatch(
+        this.hasPlayerWonMatch(
           this.matchSequence[this.state.playerTwoMatch],
           this.matchSequence[this.state.playerOneMatch]
         )
@@ -161,8 +161,8 @@ export class TennisGame extends Component {
     }
   }
 
-  hasPlayerWonGameSetAndMatch(playerAMatch, playerBMatch) {
-    console.log(playerAMatch, playerBMatch);
+  hasPlayerWonMatch(playerAMatch, playerBMatch) {
+    // console.log(playerAMatch, playerBMatch);
     if (playerAMatch === 3 && playerBMatch) {
       return true;
     } else {
