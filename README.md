@@ -1,74 +1,82 @@
 
 ## Tennis game kata
 
-Set up
-npm-x create-react-app tennis-game
-cd into tennis game
-yarn start 
-remove react branding from css/jsx in app.js
-add h1 jsx tag Tennis Game Kata in app.js
-create components folder
-Set up the basic react component - rce tab
+#### Set up
+* npm-x create-react-app tennis-game
+* cd into folder - yarn start 
+* remove react branding from css/jsx in app.js
+* add h1 jsx tag Tennis Game Kata in app.js
+* create components folder
+* Set up a basic component - rce tab for the game tennis-game.js
+* Styling for the game is in app.css
+
+
 The index.js file renders the whole app into the HTML-DOM
 
+The App.js file is basic as it derives inputs from the components imported to the page
+
 ```
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import React from 'react';
+import './App.css';
+import TennisGame from './components/tennis-game'
 
-ReactDOM.render(<App />, document.getElementById('root'));
+function App() {
+  return (
+    <div className="tennis-game-app">
+      <header className="ScoreBoard">
+    <h1>Tennis-Game-Kata</h1>
+        <TennisGame />
+      </header>
+    </div>
+  );
+}
+
+export default App;
 ```
+#### Rendering and returning jsx elements
 
+* test render is working with one div and a h1 jsx tag
+* the render structure is a parent div with a class name coloumn
+* add children - rows to display names of players, scores
+* children of rows - span to display scores
+* Buttons to advance scores of the individual players
+* A paragraph to display winner and a span to display the winner name
+* A button for the js garbage collector to clear the game down
 
-### `npm start`
+Inspect the elements in the console to ensure the methods used displayed in the right jsx element
 
+#### Styling in app.css
 
+* Basic styling using flex box to align items
 
-### `npm run build`
+### Intialising the game
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+The class of TennisGame is initialised with the scores that the players can achieve in a game, set and match.
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+The data is stored in arrays
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```
+export class TennisGame extends Component {
+  gameSequence = [0, 15, 30, 40, 50, 60];
+  setSequence = [0, 1, 2, 3, 4, 5, 6, 7];
+  matchSequence = [0, 1, 2, 3];
 
-### `npm run eject`
+  ```
+  The constructor properties are held in state as an object
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+  ```
+constructor(properties) {
+    super(properties);
+  
+    this.state = {
+      playerOne: 'Djokovic',
+      playerTwo: 'Nadal',
+      playerOneGame: 0,
+      playerOneSet: 0,
+      playerOneMatch: 0,
+      playerTwoGame: 0,
+      playerTwoSet: 0,
+      playerTwoMatch: 0
+    };
+  }
+```

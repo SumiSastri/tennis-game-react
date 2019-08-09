@@ -6,7 +6,7 @@ export class TennisGame extends Component {
 
   constructor(properties) {
     super(properties);
-
+  
     this.state = {
       playerOne: 'Djokovic',
       playerTwo: 'Nadal',
@@ -18,6 +18,7 @@ export class TennisGame extends Component {
       playerTwoMatch: 0
     };
   }
+  // game functions
   playerOneScored() {
     this.setState({ playerOneGame: this.state.playerOneGame + 1 }, () => {
       if (
@@ -162,7 +163,7 @@ export class TennisGame extends Component {
 
   hasPlayerWonGameSetAndMatch(playerAMatch, playerBMatch) {
     console.log(playerAMatch, playerBMatch);
-    if (playerAMatch === 3 && playerBMatch > 3) {
+    if (playerAMatch === 3 && playerBMatch) {
       return true;
     } else {
       return false;
@@ -171,12 +172,14 @@ export class TennisGame extends Component {
   render() {
     return (
       <div className='column'>
+       
         <div className='row'>
           <span className='bold player-name'>Name</span>
           <span className='bold player-score'>Game</span>
           <span className='bold player-score'>Set</span>
           <span className='bold player-score'>Match</span>
         </div>
+     
         <div className='row'>
           <span className='player-name'>{this.state.playerOne}</span>
           <span className='player-score'>
@@ -185,6 +188,7 @@ export class TennisGame extends Component {
           <span className='player-score'>{[this.state.playerOneSet]}</span>
           <span className='player-score'>{[this.state.playerOneMatch]}</span>
         </div>
+        
         <div className='row'>
           <span className='player-name'>{this.state.playerTwo}</span>
           <span className='player-score'>
@@ -193,6 +197,7 @@ export class TennisGame extends Component {
           <span className='player-score'>{[this.state.playerTwoSet]}</span>
           <span className='player-score'>{[this.state.playerTwoMatch]}</span>
         </div>
+
         <div className='row inputs'>
           <button onClick={() => this.playerOneScored()}>
             {this.state.playerOne}
@@ -201,6 +206,7 @@ export class TennisGame extends Component {
             {this.state.playerTwo}
           </button>
         </div>
+
         <div>
           <p>
             The Winner is
@@ -208,7 +214,8 @@ export class TennisGame extends Component {
           </p>
           <button>Reset scoreboard</button>
         </div>
-      </div>
+
+    </div>
     );
   }
 }
