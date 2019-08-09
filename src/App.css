@@ -1,0 +1,35 @@
+
+.tennis-game-app {
+  text-align: left;
+  color: darkgreen;
+  padding: 2rem;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 0.25rem;
+}
+
+.player-name {
+  width: 100px;
+}
+
+.player-score {
+  width: 80px;
+  text-align: right;
+}
+
+.inputs > * {
+  flex-grow: 1;
+  margin-top: 1rem;
+}
