@@ -1,15 +1,54 @@
-
 ## Tennis game kata
 
-#### Set up - root files & styling
-* npm-x create-react-app tennis-game
-* cd into folder - yarn start 
-* remove react branding from css/jsx in app.js
-* add h1 jsx tag Tennis Game Kata in app.js
-* create components folder
-* Set up a basic component - rce tab for the game tennis-game.js
-* Styling for the game is in app.css
+![tennis-game-scoreboard](./assets/tennis-game-kata-1.png)
 
+Kata is a Japanese word, from martial arts training, which loosely interpreted for coding refers to the form, order and process of doing things repetitively so that an intuitive understanding of the techniques used become part of the warp and weft of the way one codes. 
+
+Katas are practiced in software engineering as a part of procedural learning - or performing complex operations again and again, until it is embedded in the writers' unconscious memory. Methods, in software engineering, by working on engineering katas help the engineer access these methods without conscious exertion, control or attention.
+
+The stages involved in the coding process of learning are - attempt, fail, analyze the resutl, decide how to change the approach so that the next step is more successful.
+
+The aim of the kata is about understanding the process, practising that process and improving it and not obsessively worrying about solution, as the process is the solution.
+
+Overanalysing the process can lead to "choking" or the anxiety over finding the perfect solution and "perform well" that leads actually to the deterioration of the learning process.
+
+More on katas from Wikipedia (https://en.wikipedia.org/wiki/Kata)
+
+The tennis kata from Coding Dojo: The description of the kata provided by Coding Dojo is in this link (http://codingdojo.org/kata/Tennis/). The logic from this Dojo is described below in pseudo code with the solution in js and the ui in react.js
+
+#### Game logic in pseudo code (acceptance criteria)
+
+- the game has two players
+- scores start at 0-0
+- scores should update to 15-0 when player one scores a point
+- and to 0-15 when player 2 wins a point
+- a running score should be maintained based on the score sequence
+- the score sequence is 0, 15, 30, 40,50, 60
+- the deuce exception is when scores are 50-50
+- scores return to 40-40 when they are 50-50
+- a game is won when one player is at 50 or 60 and the other is two points behind
+- winning a game earns the player one set point
+- 1-0 is when the first player wins a set
+- 0-1 is when the first player wins a set
+- when a set is won, game scores revert to 0-0
+- players continue to win games and sets
+- the first player to win 7 sets earns a match point
+- player one wins a match at 1-0
+- player two wins a match at 0-1
+- set & game points go back to 0-0 when a match is won
+- the first player past 3 matches wins the game
+- the name of the winner is printed on the board
+- the games, sets, matches reset to 0-0 respectively
+
+#### Set up - root files & styling
+
+- npm-x create-react-app tennis-game
+- cd into folder - yarn start
+- remove react branding from css/jsx in app.js
+- add h1 jsx tag Tennis Game Kata in app.js
+- create components folder
+- Set up a basic component - rce tab for the game tennis-game.js
+- Styling for the game is in app.css
 
 The index.js file renders the whole app into the HTML-DOM
 
@@ -33,45 +72,22 @@ function App() {
 
 export default App;
 ```
+
 #### Rendering and returning jsx elements
 
-* test render is working with one div and a h1 jsx tag
-* the render structure is a parent div with a class name coloumn
-* add children - rows to display names of players, scores
-* children of rows - span to display scores
-* Buttons to advance scores of the individual players
-* A paragraph to display winner and a span to display the winner name
-* A button for the js garbage collector to clear the game down
+- test render is working with one div and a h1 jsx tag
+- the render structure is a parent div with a class name coloumn
+- add children - rows to display names of players, scores
+- children of rows - span to display scores
+- Buttons to advance scores of the individual players
+- A paragraph to display winner and a span to display the winner name
+- A button for the js garbage collector to clear the game down
 
 Inspect the elements in the console to ensure the methods used displayed in the right jsx element
 
 #### Styling in app.css
 
-* Basic styling using flex box to align items
-
-#### Game logic in pseudo code (acceptance criteria) 
- * the game has two players
- * scores start at 0-0
- * scores should update to 15-0 when player one scores a point
- * and to 0-15 when player 2 wins a point
- * a running score should be maintained based on the score sequence
- * the score sequence is 0, 15, 30, 40,50, 60
- * the deuce exception is when scores are 50-50
- * scores return to 40-40 when they are 50-50
- * a game is won when one player is at 50 or 60 and the other is two points behind 
- * winning a game earns the player one set point
- * 1-0 is when the first player wins a set
- * 0-1 is when the first player wins a set
- * when a set is won, game scores revert to 0-0
- * players continue to win games and sets
- * the first player to win 7 sets earns a match point
- * player one wins a match at 1-0
- * player two wins a match at 0-1
- * set & game points go back to 0-0 when a match is won
- * the first player past 3 matches wins the game
- * the name of the winner is printed on the board
- * the games, sets, matches reset to 0-0 respectively
-
+- Basic styling using flex box to align items
 
 ### Intializing the game
 
@@ -87,63 +103,65 @@ export class TennisGame extends Component {
   setSequence = [0, 1, 2, 3, 4, 5, 6, 7];
   matchSequence = [0, 1, 2, 3];
 
-  ```
-  The constructor properties are held in state as an object - this defines the data that changes as the game progresses
+```
 
-  ```
+The constructor properties are held in state as an object - this defines the data that changes as the game progresses
+
+```
 constructor(properties) {
-    super(properties);
-  
-    this.state = {
-      playerOne: 'Djokovic',
-      playerTwo: 'Nadal',
-      playerOneGame: 0,
-      playerOneSet: 0,
-      playerOneMatch: 0,
-      playerTwoGame: 0,
-      playerTwoSet: 0,
-      playerTwoMatch: 0
-    };
-  }
+  super(properties);
+
+  this.state = {
+    playerOne: 'Djokovic',
+    playerTwo: 'Nadal',
+    playerOneGame: 0,
+    playerOneSet: 0,
+    playerOneMatch: 0,
+    playerTwoGame: 0,
+    playerTwoSet: 0,
+    playerTwoMatch: 0
+  };
+}
 ```
 
 - the key function is to change state from 0-0 to advance points through the game
 - conditions and functions determine these state changes (changes of scores)
--  if the player won a point?
-   
-  ```
-  playerOneScored(){}
-  playerTwoScored(){}
+- if the player won a point?
 
 ```
+playerOneScored(){}
+playerTwoScored(){}
+
+```
+
 - if the player won a game?
 - if the player won a set?
 - the function is run, state is reset and then the jsx element is condtionally rendered with the new state
-     
- ```
- hasPlayerWonSet(playerASet, playerBSet) {
-    if (playerASet === 6 && playerBSet <= 4) {
-      return true;
-    } else if (playerASet === 7 && playerBSet <= 5) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-     if (
-        this.hasPlayerWonSet(
-          this.setSequence[this.state.playerTwoSet],
-          this.setSequence[this.state.playerOneSet]
-        )
-      ) {
-        this.setState({
-          playerOneGame: 0,
-          playerTwoGame: 0,
-          playerOneSet: 0,
-          playerTwoSet: 0,
-          playerTwoMatch: this.state.playerTwoMatch + 1
-        });
-      }
+
+```
+hasPlayerWonSet(playerASet, playerBSet) {
+   if (playerASet === 6 && playerBSet <= 4) {
+     return true;
+   } else if (playerASet === 7 && playerBSet <= 5) {
+     return true;
+   } else {
+     return false;
+   }
+ }
+    if (
+       this.hasPlayerWonSet(
+         this.setSequence[this.state.playerTwoSet],
+         this.setSequence[this.state.playerOneSet]
+       )
+     ) {
+       this.setState({
+         playerOneGame: 0,
+         playerTwoGame: 0,
+         playerOneSet: 0,
+         playerTwoSet: 0,
+         playerTwoMatch: this.state.playerTwoMatch + 1
+       });
+     }
 
 ```
 
@@ -160,7 +178,8 @@ hasPlayerReachedDeuce(playerAGame, playerBGame) {
     }
   }
 ```
-once this break of the iterative pattern is established then an action follows returning scores in state to 40-40, this is a position in the array with an index of 3 
+
+once this break of the iterative pattern is established then an action follows returning scores in state to 40-40, this is a position in the array with an index of 3
 
     ```
     if (
