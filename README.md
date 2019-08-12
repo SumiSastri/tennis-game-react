@@ -1,6 +1,6 @@
 ## Tennis game kata
 
-![tennis-game-scoreboard](./assets/tennis-game-kata-1.png)
+![tennis-game-scoreboard](./src/components/assets/tennis-game-kata-1.png)
 
 Kata is a Japanese word, from martial arts training, which loosely interpreted for coding refers to the form, order and process of doing things repetitively so that an intuitive understanding of the techniques used become part of the warp and weft of the way one codes. 
 
