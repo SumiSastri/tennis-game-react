@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 export class TennisGame extends Component {
-  gameSequence = [0, 15, 30, 40, 50, 60];
+  gameSequence = ['0', '15', '30', '40', 'Adv', 'Win'];
   setSequence = [0, 1, 2, 3, 4, 5, 6, 7];
   matchSequence = [0, 1, 2, 3];
 
@@ -8,166 +8,185 @@ export class TennisGame extends Component {
     super(properties);
 
     this.state = {
-      playerOne: 'Djokovic',
-      playerTwo: 'Nadal',
+      playerOne: properties.playerOne,
+      playerTwo: properties.playerTwo,
       playerOneGame: 0,
       playerOneSet: 0,
       playerOneMatch: 0,
       playerTwoGame: 0,
       playerTwoSet: 0,
-      playerTwoMatch: 0
+      playerTwoMatch: 0,
+      winnerGameSetAndMatch: ''
     };
   }
   playerOneScored() {
     this.setState({ playerOneGame: this.state.playerOneGame + 1 }, () => {
       if (
-        this.hasPlayerWonMatch(
-          this.matchSequence[this.state.playerOneMatch],
-          this.matchSequence[this.state.playerTwoMatch]
-        )
-      ) {
-        this.setState({
-          playerOneGame: 0,
-          playerTwoGame: 0,
-          playerOneSet: 0,
-          playerTwoSet: 0,
-          playerOneMatch: 0,
-          playerTwoMatch: 0
-        });
-      }
-
-      if (
-        this.hasPlayerWonSet(
-          this.setSequence[this.state.playerOneSet],
-          this.setSequence[this.state.playerTwoSet]
-        )
-      ) {
-        this.setState({
-          playerOneGame: 0,
-          playerTwoGame: 0,
-          playerOneSet: 0,
-          playerTwoSet: 0,
-          playerOneMatch: this.state.playerOneMatch + 1
-        });
-      }
-      if (
         this.hasPlayerReachedDeuce(
-          this.gameSequence[this.state.playerOneGame],
-          this.gameSequence[this.state.playerTwoGame]
+          this.state.playerOneGame,
+          this.state.playerTwoGame
         )
       ) {
         this.setState({
           playerOneGame: 3,
           playerTwoGame: 3
         });
-      }
-      if (
-        this.hasPlayerWonGame(
-          this.gameSequence[this.state.playerOneGame],
-          this.gameSequence[this.state.playerTwoGame]
-        )
-      ) {
-        this.setState({
-          playerOneGame: 0,
-          playerTwoGame: 0,
-          playerOneSet: this.state.playerOneSet + 1
-        });
+      } else {
+        if (
+          this.hasPlayerWonGame(
+            this.state.playerOneGame,
+            this.state.playerTwoGame
+          )
+        ) {
+          this.setState(
+            {
+              playerOneGame: 0,
+              playerTwoGame: 0,
+              playerOneSet: this.state.playerOneSet + 1
+            },
+            () => {
+              if (
+                this.hasPlayerWonSet(
+                  this.state.playerOneSet,
+                  this.state.playerTwoSet
+                )
+              ) {
+                this.setState(
+                  {
+                    playerOneSet: 0,
+                    playerTwoSet: 0,
+                    playerOneMatch: this.state.playerOneMatch + 1
+                  },
+                  () => {
+                    if (
+                      this.hasAnyPlayerWonMatch(
+                        this.state.playerOneMatch,
+                        this.state.playerTwoMatch
+                      )
+                    ) {
+                      this.setState({
+                        playerOneMatch: 0,
+                        playerTwoMatch: 0,
+                        winnerGameSetAndMatch: this.getWinnerName(
+                          this.state.playerOneMatch,
+                          this.state.playerTwoMatch
+                        )
+                      });
+                    }
+                  }
+                );
+              }
+            }
+          );
+        }
       }
     });
   }
   playerTwoScored() {
     this.setState({ playerTwoGame: this.state.playerTwoGame + 1 }, () => {
       if (
-        this.hasPlayerWonMatch(
-          this.matchSequence[this.state.playerTwoMatch],
-          this.matchSequence[this.state.playerOneMatch]
-        )
-      ) {
-        this.setState({
-          playerOneGame: 0,
-          playerTwoGame: 0,
-          playerOneSet: 0,
-          playerTwoSet: 0,
-          playerOneMatch: 0,
-          playerTwoMatch: 0
-        });
-      }
-
-      if (
-        this.hasPlayerWonSet(
-          this.setSequence[this.state.playerTwoSet],
-          this.setSequence[this.state.playerOneSet]
-        )
-      ) {
-        this.setState({
-          playerOneGame: 0,
-          playerTwoGame: 0,
-          playerOneSet: 0,
-          playerTwoSet: 0,
-          playerTwoMatch: this.state.playerTwoMatch + 1
-        });
-      }
-      if (
         this.hasPlayerReachedDeuce(
-          this.gameSequence[this.state.playerTwoGame],
-          this.gameSequence[this.state.playerOneGame]
+          this.state.playerTwoGame,
+          this.state.playerOneGame
         )
       ) {
         this.setState({
-          playerOneGame: 3,
-          playerTwoGame: 3
+          playerTwoGame: 3,
+          playerOneGame: 3
         });
-      }
-      if (
-        this.hasPlayerWonGame(
-          this.gameSequence[this.state.playerTwoGame],
-          this.gameSequence[this.state.playerOneGame]
-        )
-      ) {
-        this.setState({
-          playerOneGame: 0,
-          playerTwoGame: 0,
-          playerTwoSet: this.state.playerTwoSet + 1
-        });
+      } else {
+        if (
+          this.hasPlayerWonGame(
+            this.state.playerTwoGame,
+            this.state.playerOneGame
+          )
+        ) {
+          this.setState(
+            {
+              playerTwoGame: 0,
+              playerOneGame: 0,
+              playerTwoSet: this.state.playerTwoSet + 1
+            },
+            () => {
+              if (
+                this.hasPlayerWonSet(
+                  this.state.playerTwoSet,
+                  this.state.playerOneSet
+                )
+              ) {
+                this.setState(
+                  {
+                    playerTwoSet: 0,
+                    playerOneSet: 0,
+                    playerTwoMatch: this.state.playerTwoMatch + 1
+                  },
+                  () => {
+                    if (
+                      this.hasAnyPlayerWonMatch(
+                        this.state.playerTwoMatch,
+                        this.state.playerOneMatch
+                      )
+                    ) {
+                      this.setState({
+                        playerOneMatch: 0,
+                        playerTwoMatch: 0,
+                        winnerGameSetAndMatch: this.getWinnerName(
+                          this.state.playerOneMatch,
+                          this.state.playerTwoMatch
+                        )
+                      });
+                    }
+                  }
+                );
+              }
+            }
+          );
+        }
       }
     });
   }
-  hasPlayerReachedDeuce(playerAGame, playerBGame) {
-    if (playerAGame === 50 && playerBGame === 50) {
+  hasPlayerReachedDeuce(playerOneScore, playerTwoScore) {
+    if (playerOneScore === 4 && playerTwoScore === 4) {
       return true;
     } else {
       return false;
     }
   }
-  hasPlayerWonGame(playerAGame, playerBGame) {
-    // console.log(playerAGame, playerBGame);
-    if (playerAGame === 50 && playerBGame < 40) {
+  hasPlayerWonGame(playerOneGameScore, playerTwoGameScore) {
+    if (playerOneGameScore === 4 && playerTwoGameScore < 3) {
       return true;
-    } else if (playerAGame === 60 && playerBGame <= 40) {
+    } else if (playerOneGameScore === 5 && playerTwoGameScore <= 3) {
       return true;
     } else {
       return false;
     }
   }
-  hasPlayerWonSet(playerASet, playerBSet) {
-    console.log(playerASet, playerBSet);
-    if (playerASet === 6 && playerBSet <= 4) {
+  hasPlayerWonSet(playerOneSetScore, playerTwoSetScore) {
+    if (playerOneSetScore === 6 && playerTwoSetScore <= 4) {
       return true;
-    } else if (playerASet === 7 && playerBSet <= 6) {
+    } else if (playerOneSetScore === 7 && playerTwoSetScore <= 6) {
       return true;
     } else {
       return false;
+    }
+  }
+  hasAnyPlayerWonMatch(playerOneMatchScore, playerTwoMatchScore) {
+    if (playerOneMatchScore === 3 || playerTwoMatchScore === 3) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  getWinnerName(playerOneMatches, playerTwoMatches) {
+    if (playerOneMatches === 3) {
+      return this.state.playerOne;
+    } else if (playerTwoMatches === 3) {
+      return this.state.playerTwo;
+    } else {
+      return '';
     }
   }
 
-  hasPlayerWonMatch(playerAMatch, playerBMatch) {
-    console.log(playerAMatch, playerBMatch);
-    if (playerAMatch === 3 && playerBMatch) {
-      return true;
-    } else {
-      return false;
-    } 
-  }
   render() {
     return (
       <div className='column'>
@@ -183,8 +202,12 @@ export class TennisGame extends Component {
           <span className='player-score'>
             {this.gameSequence[this.state.playerOneGame]}
           </span>
-          <span className='player-score'>{[this.state.playerOneSet]}</span>
-          <span className='player-score'>{[this.state.playerOneMatch]}</span>
+          <span className='player-score'>
+            {this.setSequence[this.state.playerOneSet]}
+          </span>
+          <span className='player-score'>
+            {this.matchSequence[this.state.playerOneMatch]}
+          </span>
         </div>
 
         <div className='row'>
@@ -192,8 +215,12 @@ export class TennisGame extends Component {
           <span className='player-score'>
             {this.gameSequence[this.state.playerTwoGame]}
           </span>
-          <span className='player-score'>{[this.state.playerTwoSet]}</span>
-          <span className='player-score'>{[this.state.playerTwoMatch]}</span>
+          <span className='player-score'>
+            {this.setSequence[this.state.playerTwoSet]}
+          </span>
+          <span className='player-score'>
+            {this.matchSequence[this.state.playerTwoMatch]}
+          </span>
         </div>
 
         <div className='row inputs'>
@@ -207,11 +234,14 @@ export class TennisGame extends Component {
 
         <div>
           <p>
-            The Winner is
-            <span className='winner-name' />
+            <span className='winner-name'>
+              {this.state.winnerGameSetAndMatch !== ''
+                ? `Game, Set & Match to ${this.state.winnerGameSetAndMatch}.`
+                : ''}
+            </span>
           </p>
-          <button>Reset scoreboard</button>
         </div>
+        <button>Reset scores and players</button>
       </div>
     );
   }
