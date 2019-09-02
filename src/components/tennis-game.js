@@ -1,6 +1,6 @@
 import React from 'react';
-// import TennisGameLogic from './tennis-game-class';
 
+// import TennisGameLogic from './tennis-game-class';
 // interface Props {
 //   tennisGame: TennisGameLogic;
 // }
@@ -55,7 +55,6 @@ export const TennisGame = props => {
           {currentGame.getPlayerTwoName()}
         </button>
       </div>
-
       <div>
         <p>
           <span className='winner-name'>
@@ -74,15 +73,4 @@ export const TennisGame = props => {
     </div>
   );
 };
-
 export default TennisGame;
-
-// this.setState.playerOne: '',
-// this.state.playerTwo: '',
-// this.state.playerOneGame: 0,
-// this.playerOneSet: 0,
-// this.playerOneMatch: 0,
-// this.playerTwoGame: 0,
-// this.playerTwoSet: 0,
-// this.playerTwoMatch: 0,
-// this. winnerGameSetAndMatch: '

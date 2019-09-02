@@ -1,3 +1,4 @@
+// TYPESCRIPT
 // interface Properties {
 //   playerOne: string;
 //   playerTwo: string;
@@ -92,69 +93,8 @@ export default class TennisGame {
       }
     }
   }
-  playerTwoScored() {
-    // this.setState({ playerTwoGame: this.state.playerTwoGame + 1 }, () => {
-    //   if (
-    //     this.hasPlayerReachedDeuce(
-    //       this.state.playerTwoGame,
-    //       this.state.playerOneGame
-    //     )
-    //   ) {
-    //     this.setState({
-    //       playerTwoGame: 3,
-    //       playerOneGame: 3
-    //     });
-    //   } else {
-    //     if (
-    //       this.hasPlayerWonGame(
-    //         this.state.playerTwoGame,
-    //         this.state.playerOneGame
-    //       )
-    //     ) {
-    //       this.setState(
-    //         {
-    //           playerTwoGame: 0,
-    //           playerOneGame: 0,
-    //           playerTwoSet: this.state.playerTwoSet + 1
-    //         },
-    //         () => {
-    //           if (
-    //             this.hasPlayerWonSet(
-    //               this.state.playerTwoSet,
-    //               this.state.playerOneSet
-    //             )
-    //           ) {
-    //             this.setState(
-    //               {
-    //                 playerTwoSet: 0,
-    //                 playerOneSet: 0,
-    //                 playerTwoMatch: this.state.playerTwoMatch + 1
-    //               },
-    //               () => {
-    //                 if (
-    //                   this.hasAnyPlayerWonMatch(
-    //                     this.state.playerTwoMatch,
-    //                     this.state.playerOneMatch
-    //                   )
-    //                 ) {
-    //                   this.setState({
-    //                     playerOneMatch: 0,
-    //                     playerTwoMatch: 0,
-    //                     winnerGameSetAndMatch: this.getWinnerName(
-    //                       this.state.playerOneMatch,
-    //                       this.state.playerTwoMatch
-    //                     )
-    //                   });
-    //                 }
-    //               }
-    //             );
-    //           }
-    //         }
-    //       );
-    //     }
-    //   }
-    // });
-  }
+  
+  playerTwoScored() {}
 
   hasPlayerReachedDeuce(playerOneScore, playerTwoScore) {
     if (playerOneScore === 4 && playerTwoScore === 4) {

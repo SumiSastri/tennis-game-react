@@ -1,7 +1,20 @@
 ## Tennis game kata
+The logic of a tennis-game and front-end rendering in React part of my 3-month internship June-Sept 2019. The key learning objectives were to understand the difference between factory functions, object-oriented programming, basic testing syntax in jasmine.js and the use and benefits of Typescript with Javascript. The final step was to use the React-library to render the game with a front-end ui.
+
+The read-me focuses on the process of learning and embedding programming skills.
 
 ![tennis-game-scoreboard](./src/components/assets/tennis-game-kata-1.png)
 
+### Table of Contents
+
+* Katas: A brief background
+* Game logic in pseudo code
+* TDD - writing tests and code for tests to pass
+* Factory-functions converted to a game state using
+* Class-based game moved to the React library - set up
+* Render & conditional rendering in React
+
+#### Katas:  A brief background
 Kata is a Japanese word, from martial arts training, which loosely interpreted for coding refers to the form, order and process of doing things repetitively so that an intuitive understanding of the techniques used become part of the warp and weft of the way one codes. 
 
 Katas are practiced in software engineering as a part of procedural learning - or performing complex operations again and again, until it is embedded in the writers' unconscious memory. Methods, in software engineering, by working on engineering katas help the engineer access these methods without conscious exertion, control or attention.
@@ -40,7 +53,165 @@ The tennis kata from Coding Dojo: The description of the kata provided by Coding
 - the name of the winner is printed on the board
 - the games, sets, matches reset to 0-0 respectively
 
-#### Set up - root files & styling
+
+#### TDD - code snippets of tests run
+
+```
+it('should start both players with a score of 0-0', () => {
+  const game = new TennisGame();
+  expect(game.score()).toEqual([0, 0]);
+});
+it('should update scores to 15-0 when playerOne scores', () => {
+  const game = new TennisGame();
+  game.playerONeAddPoint();
+  expect(game.score()).toEqual([15, 0]);
+});
+it('should update score to 0-15 when playerTwo scores', () => {
+  const game = new TennisGame();
+  game.playerTwoAddPoint();
+  expect(game.score()).toEqual([0, 15]);
+});
+```
+Exception handling test
+
+```
+it('should set score back to 40-40 on the deuce exception', () => {
+  const game = new TennisGame([40, 50]);
+  game.playerOneAddPoint();
+  expect(game.score()).toEqual([40, 40]);
+});
+```
+Win conditions
+
+```
+it('a playerOne should win game if score 50-30', () => {
+  const game = new TennisGame([40, 30]);
+  game.playerOneWinGame();
+  expect(game.score()).toEqual([50, 30]);
+});
+it('a playerTwo should win game if score 30-50', () => {
+  const game = new TennisGame([30, 40]);
+  game.playerTwoWinGame();
+  expect(game.score()).toEqual([30, 50]);
+});
+```
+reset game conditions
+
+```
+it('should set scores to 0-0 if playerOne or playerTwo wins game', () => {
+  const game = new TennisGame([50, 30]);
+  game.playerOneWinGame();
+  expect(game.score()).toEqual([0, 0]);
+});
+
+it('should set scores to 0-0 if playerOne or playerTwo wins game', () => {
+  const game = new TennisGame([30, 50]);
+  game.playerTwoWinGame();
+  expect(game.score()).toEqual([0, 0]);
+});
+```
+### Factory-functions converted to a game state using classes and constructors
+
+```
+export default class TennisGame {
+  gameState; //: GameState;
+
+  constructor(properties) {
+    this.gameState = {
+      playerOne: properties.playerOne,
+      playerTwo: properties.playerTwo,
+      playerOneGame: 0,
+      playerOneSet: 0,
+      playerOneMatch: 0,
+      playerTwoGame: 0,
+      playerTwoSet: 0,
+      playerTwoMatch: 0,
+      winnerGameSetAndMatch: ''
+    };
+  }
+
+  playerOneScored() {
+    this.gameState.playerOneGame = this.gameState.playerOneGame + 1;
+    const isDeuce = this.hasPlayerReachedDeuce(
+      this.gameState.playerOneGame,
+      this.gameState.playerTwoGame
+    );
+
+    if (isDeuce) {
+      this.gameState = {
+        ...this.gameState,
+        playerOneGame: 3,
+        playerTwoGame: 3
+      };
+    } else {
+      const hasPlayerWonGame = this.hasPlayerWonGame(
+        this.gameState.playerOneGame,
+        this.gameState.playerTwoGame
+      );
+
+      if (hasPlayerWonGame) {
+        this.gameState = {
+          ...this.gameState,
+          playerOneGame: 0,
+          playerTwoGame: 0,
+          playerOneSet: this.gameState.playerOneSet + 1
+        };
+
+        const hasPlayerWonSet = this.hasPlayerWonSet(
+          this.gameState.playerOneSet,
+          this.gameState.playerTwoSet
+        );
+
+        if (hasPlayerWonSet) {
+          this.gameState = {
+            ...this.gameState,
+            playerOneSet: 0,
+            playerTwoSet: 0,
+            playerOneMatch: this.gameState.playerOneMatch + 1
+          };
+
+          const hasAnyPlayerWonMatch = this.hasAnyPlayerWonMatch(
+            this.gameState.playerOneMatch,
+            this.gameState.playerTwoMatch
+          );
+
+          if (hasAnyPlayerWonMatch) {
+            this.gameState = {
+              ...this.gameState,
+              playerOneMatch: 0,
+              playerTwoMatch: 0,
+              winnerGameSetAndMatch: this.getWinnerName(
+                this.gameState.playerOneMatch,
+                this.gameState.playerTwoMatch
+              )
+            };
+          }
+        }
+      }
+    }
+  }
+  
+  playerTwoScored() {}
+
+  hasPlayerReachedDeuce(playerOneScore, playerTwoScore) {
+    if (playerOneScore === 4 && playerTwoScore === 4) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  hasPlayerWonGame(playerOneGameScore, playerTwoGameScore) {
+    if (playerOneGameScore === 4 && playerTwoGameScore < 3) {
+      return true;
+    } else if (playerOneGameScore === 5 && playerTwoGameScore <= 3) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  ```
+#### Class-based game moved to the React library - set up
 
 - npm-x create-react-app tennis-game
 - cd into folder - yarn start
@@ -196,6 +367,34 @@ once this break of the iterative pattern is established then an action follows r
 
     ```
 
-    The final step is to find a winner by comparing scores and print the winner's name on the board
+    The final step is to find a winner by comparing scores and print the winner's name on the board. Once the winner has been declared, the scoreboard is cleared down to the start of a new game and returnsthe gamestate to the original state when the game starts with scores at zero and the winner removed.
 
-    Once the winner has been declared, the garbage-collector has to be called and the reset game scores will clear the data that has been cached returning the game to the original state.
+    ```
+
+      <div className='row inputs'>
+        <button onClick={() => currentGame.playerOneScored()}>
+          {currentGame.getPlayerOneName()}
+        </button>
+        <button onClick={() => currentGame.playerTwoScored()}>
+          {currentGame.getPlayerTwoName()}
+        </button>
+      </div>
+      <div>
+        <p>
+          <span className='winner-name'>
+            {currentGame.getPreviousWinner() !== ''
+              ? `Game, Set & Match to ${currentGame.getPreviousWinner()}.`
+              : ''}
+          </span>
+        </p>
+      </div>
+
+      <div>
+        <button onClick={() => currentGame.reset()}>
+          Reset scores and players
+        </button>
+      </div>
+    </div>
+  );
+};
+```
