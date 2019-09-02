@@ -1,6 +1,6 @@
 ## Tennis game kata
 
-The logic of a tennis-game and front-end rendering in React part of my 3-month internship June-Sept 2019. The key learning objectives were to understand the difference between factory functions, object-oriented programming, basic testing syntax in jasmine.js and the use and benefits of Typescript with Javascript. The final step was to use the React-library to render the game with a front-end ui.
+The logic of a tennis-game and front-end rendering in React part of my 3-month internship June-Sept 2019.
 
 The read-me focuses on the process of learning and embedding programming skills.
 
@@ -8,12 +8,17 @@ The read-me focuses on the process of learning and embedding programming skills.
 
 ### Table of Contents
 
+- Learning objectives
 - Katas: A brief background
 - Game logic in pseudo code
 - TDD - writing tests and code for tests to pass
 - Factory-functions converted to a game state using
 - Class-based game moved to the React library - set up
 - Render & conditional rendering in React
+
+#### Learning Objectives
+
+The key learning objectives were to understand the difference between factory functions, object-oriented programming, basic testing syntax in jasmine.js and the use and benefits of Typescript with Javascript. The final step was to use the React-library to render the game with a front-end ui.
 
 #### Katas: A brief background
 
