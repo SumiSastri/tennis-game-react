@@ -1,9 +1,6 @@
 ## Tennis game kata
 
 The logic of a tennis-game and front-end rendering in React part of my 3-month internship June-Sept 2019.
-
-The read-me focuses on the process of learning and embedding programming skills.
-
 ![tennis-game-scoreboard](./src/components/assets/tennis-game-kata-1.png)
 
 ### Table of Contents
@@ -19,6 +16,7 @@ The read-me focuses on the process of learning and embedding programming skills.
 #### Learning Objectives
 
 The key learning objectives were to understand the difference between factory functions, object-oriented programming, basic testing syntax in jasmine.js and the use and benefits of Typescript with Javascript. The final step was to use the React-library to render the game with a front-end ui.
+The read-me focuses on the process of learning and embedding programming skills.
 
 #### Katas: A brief background
 
