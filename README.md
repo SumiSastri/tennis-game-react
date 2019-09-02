@@ -1,4 +1,5 @@
 ## Tennis game kata
+
 The logic of a tennis-game and front-end rendering in React part of my 3-month internship June-Sept 2019. The key learning objectives were to understand the difference between factory functions, object-oriented programming, basic testing syntax in jasmine.js and the use and benefits of Typescript with Javascript. The final step was to use the React-library to render the game with a front-end ui.
 
 The read-me focuses on the process of learning and embedding programming skills.
@@ -7,15 +8,16 @@ The read-me focuses on the process of learning and embedding programming skills.
 
 ### Table of Contents
 
-* Katas: A brief background
-* Game logic in pseudo code
-* TDD - writing tests and code for tests to pass
-* Factory-functions converted to a game state using
-* Class-based game moved to the React library - set up
-* Render & conditional rendering in React
+- Katas: A brief background
+- Game logic in pseudo code
+- TDD - writing tests and code for tests to pass
+- Factory-functions converted to a game state using
+- Class-based game moved to the React library - set up
+- Render & conditional rendering in React
 
-#### Katas:  A brief background
-Kata is a Japanese word, from martial arts training, which loosely interpreted for coding refers to the form, order and process of doing things repetitively so that an intuitive understanding of the techniques used become part of the warp and weft of the way one codes. 
+#### Katas: A brief background
+
+Kata is a Japanese word, from martial arts training, which loosely interpreted for coding refers to the form, order and process of doing things repetitively so that an intuitive understanding of the techniques used become part of the warp and weft of the way one codes.
 
 Katas are practiced in software engineering as a part of procedural learning - or performing complex operations again and again, until it is embedded in the writers' unconscious memory. Methods, in software engineering, by working on engineering katas help the engineer access these methods without conscious exertion, control or attention.
 
@@ -53,8 +55,19 @@ The tennis kata from Coding Dojo: The description of the kata provided by Coding
 - the name of the winner is printed on the board
 - the games, sets, matches reset to 0-0 respectively
 
-
 #### TDD - code snippets of tests run
+
+Test driven development - TDD is also a repetiton-driven method to test software written passes small unit tests.
+
+Kent Beck, an American software developer is credited with starting the practice and aims to keep development simple, robust and repeatable based on the confidence that unit tests are passed.
+
+Once tests are passed, the developer is confident that the software logic is proven to meet requirements of the user.
+
+It may appear to the developer slower at the start but significantly reduces debugging time as the code base gets more complex. It is specifically useful in end-to-end testing where the code and its dependency on other parts of an app can be tested seamlessly in small, iterative steps.
+
+The process in TDD is to write test, see the test fail, write code, run tests, see the code pass, write as many tests to check all scenarios of the user experience, refactor code to make it readable, lower run-time and make it more maintainable.
+
+jasmine.js has been used to run the TDD for this kata. Some snippets below:-
 
 ```
 it('should start both players with a score of 0-0', () => {
@@ -72,6 +85,7 @@ it('should update score to 0-15 when playerTwo scores', () => {
   expect(game.score()).toEqual([0, 15]);
 });
 ```
+
 Exception handling test
 
 ```
@@ -81,6 +95,7 @@ it('should set score back to 40-40 on the deuce exception', () => {
   expect(game.score()).toEqual([40, 40]);
 });
 ```
+
 Win conditions
 
 ```
@@ -95,6 +110,7 @@ it('a playerTwo should win game if score 30-50', () => {
   expect(game.score()).toEqual([30, 50]);
 });
 ```
+
 reset game conditions
 
 ```
@@ -110,7 +126,10 @@ it('should set scores to 0-0 if playerOne or playerTwo wins game', () => {
   expect(game.score()).toEqual([0, 0]);
 });
 ```
+
 ### Factory-functions converted to a game state using classes and constructors
+
+As part of the TDD, factory functions in vanilla js were written to pass tests, these factory functions were converted into a class-based game-state to understand how React.js as a library works under the hood, a class was created, so that the game could be played again and again under the same conditions as a 'new' TennisGame
 
 ```
 export default class TennisGame {
@@ -190,7 +209,7 @@ export default class TennisGame {
       }
     }
   }
-  
+
   playerTwoScored() {}
 
   hasPlayerReachedDeuce(playerOneScore, playerTwoScore) {
@@ -210,8 +229,15 @@ export default class TennisGame {
       return false;
     }
   }
-  ```
+```
+
 #### Class-based game moved to the React library - set up
+
+React is a JavaScript library that can be used to build user interfaces. While the tennis game in a class-based object can be rendered in HTML and with vanilla javascript, accessing the DOM is much easier with the React Library.
+
+The React app, creates components and these components display data that changes over time by accessing a virtual document-object-model (DOM).
+
+The create-react-app creates HTML-like elements (JSX) that are transpiled by the library from JSX back into vanilla JavaScript. Using the create-react-app accesses Bable (the transpiler) and all the methods baked into the React library.
 
 - npm-x create-react-app tennis-game
 - cd into folder - yarn start
@@ -352,7 +378,7 @@ hasPlayerReachedDeuce(playerAGame, playerBGame) {
 
 once this break of the iterative pattern is established then an action follows returning scores in state to 40-40, this is a position in the array with an index of 3
 
-    ```
+```
     if (
         this.hasPlayerReachedDeuce(
           this.gameSequence[this.state.playerTwoGame],
@@ -365,12 +391,11 @@ once this break of the iterative pattern is established then an action follows r
         });
       }
 
-    ```
+```
 
     The final step is to find a winner by comparing scores and print the winner's name on the board. Once the winner has been declared, the scoreboard is cleared down to the start of a new game and returnsthe gamestate to the original state when the game starts with scores at zero and the winner removed.
 
-    ```
-
+```
       <div className='row inputs'>
         <button onClick={() => currentGame.playerOneScored()}>
           {currentGame.getPlayerOneName()}
@@ -388,7 +413,6 @@ once this break of the iterative pattern is established then an action follows r
           </span>
         </p>
       </div>
-
       <div>
         <button onClick={() => currentGame.reset()}>
           Reset scores and players
